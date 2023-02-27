@@ -10,7 +10,9 @@ RUN npm install
 
 COPY . .
 
-CMD [ "npm", "start" ]
+ENTRYPOINT [ "npm", "run" ] 
+
+CMD [ "start" ]
 
 # Mudar para o diretório de trabalho /app-frontend
 
