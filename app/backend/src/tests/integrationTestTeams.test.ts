@@ -4,7 +4,6 @@ import * as chai from 'chai';
  import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import TeamsService from '../services/TeamsService'
 import Teams from '../database/models/TeamsModel';
 import { Model } from 'sequelize';
 

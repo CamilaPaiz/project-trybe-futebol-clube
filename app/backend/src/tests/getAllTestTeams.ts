@@ -9,7 +9,6 @@ import Teams from '../database/models/TeamsModel';
 import { Model } from 'sequelize';
 
 
-
 chai.use(chaiHttp);
 
 const { expect } = chai;
