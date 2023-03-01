@@ -13,6 +13,10 @@ class LoginController {
     const result = await this._service.createLogin(email, password);
     return res.status(200).json(result);
   }
+
+  static async getLogin(req:Request, res:Response) {
+    return res.status(200).json({ role: req.body.user.role });
+  }
 }
 
 export default LoginController;

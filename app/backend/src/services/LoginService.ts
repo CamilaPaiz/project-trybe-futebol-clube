@@ -21,7 +21,7 @@ export default class LoginService implements ILoginService {
       return null;
     }
 
-    const token = generateToken({ id: user.id });
+    const token = generateToken({ id: user.id, role: user.role });
     return { token };
   }
 }
