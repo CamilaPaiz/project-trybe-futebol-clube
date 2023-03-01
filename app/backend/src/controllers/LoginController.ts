@@ -1,7 +1,5 @@
 import { Response, Request } from 'express';
 import ILoginService from '../interfaces/ILoginService';
-import validateEmail from '../middlewares/validateEmail';
-import validatePassword from '../middlewares/validatePassword';
 
 class LoginController {
   private _service : ILoginService;
