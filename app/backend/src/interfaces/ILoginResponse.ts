@@ -1,5 +1,5 @@
 interface ILoginResponse {
-  token: string | null;
+  token: string;
 }
 
 export default ILoginResponse;

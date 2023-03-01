@@ -33,6 +33,7 @@ describe('Testing Login', () => {
     const serviceLogin = new LoginService();
     const resultLogin = await serviceLogin.createLogin(user.email, 'password');
     const token = jwt.sign({ id: user.id }, 'your-secret-key', { expiresIn: '72h' });
-    expect(resultLogin.token).to.be.equal(token);
+    expect(resultLogin).to.be.equal(token);
   });
+   
 });

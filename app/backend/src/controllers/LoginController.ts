@@ -1,5 +1,7 @@
 import { Response, Request } from 'express';
 import ILoginService from '../interfaces/ILoginService';
+import validateEmail from '../middlewares/validateEmail';
+import validatePassword from '../middlewares/validatePassword';
 
 class LoginController {
   private _service : ILoginService;
@@ -10,14 +12,7 @@ class LoginController {
 
   async createLogin(req:Request, res: Response) {
     const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json('All fields must be filled');
-    }
-
     const result = await this._service.createLogin(email, password);
-    if (!result) {
-      return res.status(401).json('Invalid email or password');
-    }
     return res.status(200).json(result);
   }
 }
