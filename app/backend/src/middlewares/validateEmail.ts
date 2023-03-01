@@ -8,8 +8,10 @@ export default function validateEmail(req: Request, res: Response, next: NextFun
     res.status(400).json({ message: 'All fields must be filled' });
     return;
   }
+  console.log(emailRegex.test(email));
   if (!emailRegex.test(email)) {
     res.status(401).json({ message: 'Invalid email or password' });
+    return;
   }
 
   next();

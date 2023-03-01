@@ -7,7 +7,9 @@ export default async function checkUserExists(req: Request, res: Response, next:
 
   const loginService = new LoginService();
   const userExists = await loginService.createLogin(email, password);
+  console.log(userExists);
   if (!userExists) {
+    console.log('entrou if');
     res.status(401).json({ message: 'Invalid email or password' });
     return;
   }
