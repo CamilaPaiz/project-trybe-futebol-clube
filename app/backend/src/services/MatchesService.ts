@@ -4,6 +4,7 @@ import Teams from '../database/models/TeamsModel';
 import Matches from '../database/models/MatchesModel';
 import updateMatchesResponse from '../type/matches';
 import IMatchUpdateGoals from '../interfaces/IMatchUpdateGoals';
+import ICreateMatch from '../interfaces/ICreateMatch';
 
 export default class MatchesService {
   protected model: ModelStatic<Matches> = Matches;
@@ -46,20 +47,13 @@ export default class MatchesService {
     return matchUpdated;
   }
 
-  async create(
-    homeTeamId: number,
-    awayTeamId: number,
-    homeTeamGoals: number,
-    awayTeamGoals: number,
-  ): Promise<Matches> {
-    const match = await this.model.create({
-      homeTeamId,
-      awayTeamId,
-      homeTeamGoals,
-      awayTeamGoals,
-      inProgress: true,
-    });
-    console.log('service', match);
+  async create(data:ICreateMatch): Promise<Matches> {
+    const match = await this.model.create({ ...data, inProgress: true });
     return match;
+  }
+
+  async getOne(id: number):Promise< Matches | null> {
+    const result = await this.model.findOne({ where: { id } });
+    return result;
   }
 }
