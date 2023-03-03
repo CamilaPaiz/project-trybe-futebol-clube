@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import MatchesController from '../controllers/MatchesController';
 import MatchesService from '../services/MatchesService';
+import validateToken from '../middlewares/validateToken';
 
 const matchesRoute = Router();
 const matchesService = new MatchesService();
@@ -10,5 +11,10 @@ matchesRoute.get(
   '/matches',
 
   (req:Request, res:Response) => matchesController.getAll(req, res),
+);
+matchesRoute.patch(
+  '/matches/:id/finish',
+  validateToken,
+  (req:Request, res:Response) => matchesController.update(req, res),
 );
 export default matchesRoute;

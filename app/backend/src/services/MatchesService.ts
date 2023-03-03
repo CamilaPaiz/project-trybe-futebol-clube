@@ -2,10 +2,8 @@ import { ModelStatic } from 'sequelize';
 import Teams from '../database/models/TeamsModel';
 
 import Matches from '../database/models/MatchesModel';
-/* import IMatchesService from '../interfaces/IMatchesService'; */
-/* import IMatches from '../interfaces/IMatches'; */
-/* import IMatchWithTeams from '../interfaces/IMatchWithTeams'; */
-/* import IMatches from '../interfaces/IMatches'; */
+import updateMatchesResponse from '../type/matches';
+/* import IMatchesUpdateReturn from '../interfaces/IMatchesUpdateReturn'; */
 
 export default class MatchesService {
   protected model: ModelStatic<Matches> = Matches;
@@ -28,5 +26,14 @@ export default class MatchesService {
       ],
     });
     return match;
+  }
+
+  async update(id:number):Promise<updateMatchesResponse > {
+    const matchUpdated = await this.model.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+    console.log('service', matchUpdated);
+    return matchUpdated;
   }
 }
