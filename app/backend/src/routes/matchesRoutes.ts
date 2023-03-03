@@ -17,4 +17,9 @@ matchesRoute.patch(
   validateToken,
   (req:Request, res:Response) => matchesController.update(req, res),
 );
+matchesRoute.patch(
+  '/matches/:id',
+  validateToken,
+  (req:Request, res:Response) => matchesController.updateMatch(req, res),
+);
 export default matchesRoute;

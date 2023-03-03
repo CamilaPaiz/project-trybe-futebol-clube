@@ -3,7 +3,7 @@ import Teams from '../database/models/TeamsModel';
 
 import Matches from '../database/models/MatchesModel';
 import updateMatchesResponse from '../type/matches';
-/* import IMatchesUpdateReturn from '../interfaces/IMatchesUpdateReturn'; */
+import IMatchUpdateGoals from '../interfaces/IMatchUpdateGoals';
 
 export default class MatchesService {
   protected model: ModelStatic<Matches> = Matches;
@@ -31,6 +31,15 @@ export default class MatchesService {
   async update(id:number):Promise<updateMatchesResponse > {
     const matchUpdated = await this.model.update(
       { inProgress: false },
+      { where: { id } },
+    );
+    console.log('service', matchUpdated);
+    return matchUpdated;
+  }
+
+  async updateMatch(id:number, goalsToUpdate: IMatchUpdateGoals):Promise<updateMatchesResponse> {
+    const matchUpdated = await this.model.update(
+      { homeTeamGoals: goalsToUpdate.homeTeamGoals, awayTeamGoals: goalsToUpdate.awayTeamGoals },
       { where: { id } },
     );
     console.log('service', matchUpdated);

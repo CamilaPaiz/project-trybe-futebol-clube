@@ -26,6 +26,17 @@ class MatchesController {
     if (result[0] > 0) {
       return res.status(200).json({ message: 'Finished' });
     }
+    return res.status(400).json({ message: ' Update denied ' });
+  }
+
+  async updateMatch(req:Request, res:Response) {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    const result = await this._service.updateMatch(Number(id), { homeTeamGoals, awayTeamGoals });
+    if (result[0] > 0) {
+      return res.status(200).json({ message: 'Goals Updated' });
+    }
+    return res.status(400).json({ message: '  Update denied ' });
   }
 }
 
