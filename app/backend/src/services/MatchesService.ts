@@ -15,13 +15,13 @@ export default class MatchesService {
       include: [
         {
           model: Teams,
-          as: 'home_team_id',
+          as: 'homeTeam',
           attributes: ['teamName'],
           required: true,
         },
         {
           model: Teams,
-          as: 'away_team_id',
+          as: 'awayTeam',
           attributes: ['teamName'],
           required: true,
         },
