@@ -38,6 +38,13 @@ class MatchesController {
     }
     return res.status(400).json({ message: '  Update denied ' });
   }
+
+  async create(req:Request, res:Response) {
+    const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
+    const result = await this._service.create(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
+    console.log('controller', result);
+    return res.status(201).json(result);
+  }
 }
 
 export default MatchesController;

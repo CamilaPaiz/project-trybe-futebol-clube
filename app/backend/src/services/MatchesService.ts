@@ -45,4 +45,21 @@ export default class MatchesService {
     console.log('service', matchUpdated);
     return matchUpdated;
   }
+
+  async create(
+    homeTeamId: number,
+    awayTeamId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise<Matches> {
+    const match = await this.model.create({
+      homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress: true,
+    });
+    console.log('service', match);
+    return match;
+  }
 }

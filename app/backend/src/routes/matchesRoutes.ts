@@ -22,4 +22,9 @@ matchesRoute.patch(
   validateToken,
   (req:Request, res:Response) => matchesController.updateMatch(req, res),
 );
+matchesRoute.post(
+  '/matches',
+  validateToken,
+  (req:Request, res:Response) => matchesController.create(req, res),
+);
 export default matchesRoute;
