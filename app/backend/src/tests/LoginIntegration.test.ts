@@ -9,6 +9,8 @@ import { app } from '../app';
 /* import Users from '../database/models/UsersModel'; */
 import { Model } from 'sequelize';
 import Users from '../database/models/UsersModel';
+import { generateToken } from '../utils/auth';
+import LoginService from '../services/LoginService';
 
 
 chai.use(chaiHttp);
@@ -31,17 +33,24 @@ describe('Testing login endpoints', () => {
     });
 
      it('should return 200,when login is succed ',  async function (){
-
+        
         const user: Users = new Users({
             id: 1,
             username: 'Joana',
-            role: 'goalkeeper',
+            role: 'admn',
             email: 'joana@test.com',
-            password: await bcrypt.hash('password', 10),
+            password: 'secret_admin',
           });
-      
+          const token = generateToken({id:1,role:user.role })
+
           sinon.stub(Model, 'findOne').resolves(user)
-          const response = await chai.request(app).post('/login');
+          const response = await chai.request(app).post('/login')
+          .set({authorization:token})
+          .send()
+          const serviceLogin = new LoginService();
+           await serviceLogin.createLogin(user.email, 'password');
           expect(response.status).to.be.equal(200);
+          expect(response).to.be.equal(token);
 }); 
 });
+

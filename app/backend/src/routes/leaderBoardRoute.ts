@@ -1,4 +1,4 @@
-/* import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import LeaderBoardController from '../controllers/LeaderBoardController';
 import LeaderBoardService from '../services/LeaderBoardService';
 
@@ -11,4 +11,5 @@ leaderBoardRoute.get(
 
   (req:Request, res:Response) => leaderBoardController.getAll(req, res),
 );
- */
+
+export default leaderBoardRoute;

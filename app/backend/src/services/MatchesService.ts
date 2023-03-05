@@ -34,7 +34,6 @@ export default class MatchesService {
       { inProgress: false },
       { where: { id } },
     );
-    console.log('service', matchUpdated);
     return matchUpdated;
   }
 
@@ -43,7 +42,6 @@ export default class MatchesService {
       { homeTeamGoals: goalsToUpdate.homeTeamGoals, awayTeamGoals: goalsToUpdate.awayTeamGoals },
       { where: { id } },
     );
-    console.log('service', matchUpdated);
     return matchUpdated;
   }
 
