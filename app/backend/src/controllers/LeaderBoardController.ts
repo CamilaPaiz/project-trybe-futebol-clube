@@ -16,5 +16,12 @@ class LeaderBoardController {
 
     return res.status(200).json(sortedTeams);
   }
+
+  async getAllAway(_req:Request, res: Response) {
+    const teamsStatistic = await this._service.calculatePointsAway();
+    const sortedTeams = sortLeaderboard(teamsStatistic);
+
+    return res.status(200).json(sortedTeams);
+  }
 }
 export default LeaderBoardController;

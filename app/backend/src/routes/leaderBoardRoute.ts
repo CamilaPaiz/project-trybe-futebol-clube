@@ -12,4 +12,9 @@ leaderBoardRoute.get(
   (req:Request, res:Response) => leaderBoardController.getAll(req, res),
 );
 
+leaderBoardRoute.get(
+  '/leaderboard/away',
+  (req:Request, res:Response) => leaderBoardController.getAllAway(req, res),
+);
+
 export default leaderBoardRoute;

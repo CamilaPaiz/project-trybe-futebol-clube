@@ -19,30 +19,12 @@ describe('Testing Teams endpoints', () => {
        sinon.restore();
     });
 
-    const expectedOutputMock= [
-        new Teams({
-        id: 1,
-        teamName: 'Team Typescript',
-        }),
-        new Teams({
-            id: 2,
-            teamName: 'Palmeira',
-            },
-    )];
+    const expectedOutputMock = [
+        Teams.build({ id: 1, teamName: 'Santos' }),
+        Teams.build({ id: 2, teamName: 'Palmeira' })
+    ];
 
-    const expectedOneOutput = [
-        {
-        id: 1,
-        teamName: 'Team Typescript',
-        },
-        {
-            id: 2,
-            teamName: 'Palmeira',   
-        }
-    ]
-
-   
-
+     
     it('should return the list of teams on /teams',  async function (){
 
         // when
@@ -52,21 +34,18 @@ describe('Testing Teams endpoints', () => {
         //assertion
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array')
-        expect(res.body).to.deep.equal(expectedOutputMock);
+        expect(res.body).to.deep.equal(expectedOutputMock.map(team => team.toJSON()));
        
 
     });
      it('should return the a team on /teams/:id',  async function (){
-
-        
-        
+   
         sinon.stub(Model, 'findOne').resolves(expectedOutputMock[0])
     
             const res = await chai.request(app).get('/teams/1');
             expect(res.status).to.be.equal(200);
             expect(res.body).to.deep.equal(expectedOutputMock[0].dataValues);
-           
-    
+             
         }); 
     
 });

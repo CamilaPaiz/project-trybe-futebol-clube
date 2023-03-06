@@ -1,6 +1,6 @@
 import { ModelStatic } from 'sequelize';
 import calculateEfficiency from '../utils/calculateEfficiency';
-import calculatePoints from '../utils/calculatePoints';
+import { calculatePoints, calculatePointsAway } from '../utils/calculatePoints';
 /* import ITeam from '../interfaces/ITeam'; */
 
 import Matches from '../database/models/MatchesModel';
@@ -54,6 +54,20 @@ export default class LeaderBoardService {
     matches.forEach((el) => {
       const homeTeam = teamsStatistic.find((team) => team.name === el.dataValues.homeTeam.teamName);
       if (homeTeam) calculatePoints(homeTeam, el);
+    });
+    const efficiencyMap = teamsStatistic.map((team) => {
+      const efficiency = calculateEfficiency(team.totalPoints, team.totalGames);
+      return { ...team, efficiency };
+    });
+    return efficiencyMap;
+  }
+
+  async calculatePointsAway(): Promise<ILeaderBoardStatistic[]> {
+    const matches = await this.getAll();
+    const teamsStatistic = await this.teamNewObj();
+    matches.forEach((el) => {
+      const awayTeam = teamsStatistic.find((team) => team.name === el.dataValues.awayTeam.teamName);
+      if (awayTeam) calculatePointsAway(awayTeam, el);
     });
     const efficiencyMap = teamsStatistic.map((team) => {
       const efficiency = calculateEfficiency(team.totalPoints, team.totalGames);

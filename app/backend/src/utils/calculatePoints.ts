@@ -1,7 +1,7 @@
 import IMatches from '../interfaces/IMatches';
 import ILeaderBoardStatistic from '../interfaces/ILeaderBoardStatistic';
 
-export default function calculatePoints(team:ILeaderBoardStatistic, el:IMatches) {
+export function calculatePoints(team:ILeaderBoardStatistic, el:IMatches) {
   const homeTeam = team;
   if (el.homeTeamGoals > el.awayTeamGoals) {
     homeTeam.totalPoints += 3;
@@ -17,4 +17,22 @@ export default function calculatePoints(team:ILeaderBoardStatistic, el:IMatches)
   homeTeam.goalsOwn += el.awayTeamGoals;
   homeTeam.goalsBalance = homeTeam.goalsFavor - homeTeam.goalsOwn;
   return homeTeam;
+}
+
+export function calculatePointsAway(team:ILeaderBoardStatistic, el:IMatches) {
+  const awayTeam = team;
+  if (el.homeTeamGoals < el.awayTeamGoals) {
+    awayTeam.totalPoints += 3;
+    awayTeam.totalVictories += 1;
+  } else if (el.homeTeamGoals === el.awayTeamGoals) {
+    awayTeam.totalPoints += 1;
+    awayTeam.totalDraws += 1;
+  } else {
+    awayTeam.totalLosses += 1;
+  }
+  awayTeam.totalGames += 1;
+  awayTeam.goalsFavor += el.awayTeamGoals;
+  awayTeam.goalsOwn += el.homeTeamGoals;
+  awayTeam.goalsBalance = awayTeam.goalsFavor - awayTeam.goalsOwn;
+  return awayTeam;
 }
