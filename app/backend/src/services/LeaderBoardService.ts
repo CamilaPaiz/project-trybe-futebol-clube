@@ -1,4 +1,6 @@
 import { ModelStatic } from 'sequelize';
+import calculateEfficiency from '../utils/calculateEfficiency';
+import calculatePoints from '../utils/calculatePoints';
 /* import ITeam from '../interfaces/ITeam'; */
 
 import Matches from '../database/models/MatchesModel';
@@ -41,7 +43,7 @@ export default class LeaderBoardService {
       goalsFavor: 0,
       goalsOwn: 0,
       goalsBalance: 0,
-      efficiency: 0,
+      efficiency: '',
     }));
     return teamsStatistic;
   }
@@ -51,48 +53,12 @@ export default class LeaderBoardService {
     const teamsStatistic = await this.teamNewObj();
     matches.forEach((el) => {
       const homeTeam = teamsStatistic.find((team) => team.name === el.dataValues.homeTeam.teamName);
-      if (homeTeam) {
-        if (el.homeTeamGoals > el.awayTeamGoals) {
-          homeTeam.totalPoints += 3;
-          homeTeam.totalVictories += 1;
-        } else if (el.homeTeamGoals === el.awayTeamGoals) {
-          homeTeam.totalPoints += 1;
-          homeTeam.totalDraws += 1;
-        } else {
-          homeTeam.totalLosses += 1;
-        }
-        homeTeam.totalGames += 1;
-      }
+      if (homeTeam) calculatePoints(homeTeam, el);
     });
-    return teamsStatistic;
-  }
-
-  async calculateGoals() : Promise<ILeaderBoardStatistic[]> {
-    const matches = await this.getAll();
-    const teamsStatistic = await this.calculatePointsHome();
-    matches.forEach((el) => {
-      const homeTeam = teamsStatistic.find((team) => team.name === el.dataValues.homeTeam.teamName);
-      if (homeTeam) {
-        const homeTeamGoalScored = el.homeTeamGoals ? 1 : 0;
-        const awayTeamGoalScored = el.awayTeamGoals ? 1 : 0;
-        homeTeam.goalsFavor += homeTeamGoalScored;
-        homeTeam.goalsOwn += awayTeamGoalScored;
-        homeTeam.goalsBalance = homeTeam.goalsFavor - homeTeam.goalsOwn;
-      }
+    const efficiencyMap = teamsStatistic.map((team) => {
+      const efficiency = calculateEfficiency(team.totalPoints, team.totalGames);
+      return { ...team, efficiency };
     });
-    return teamsStatistic;
-  }
-
-  async calculateEfficiency():Promise<ILeaderBoardStatistic[]> {
-    const matches = await this.getAll();
-    const teamsStatistic = await this.calculateGoals();
-    matches.forEach((el) => {
-      const homeTeam = teamsStatistic.find((team) => team.name === el.dataValues.homeTeam.teamName);
-      if (homeTeam) {
-        const statistic = (homeTeam.totalPoints / (homeTeam.totalGames * 3)) * 100;
-        homeTeam.efficiency = Number(statistic.toFixed(2));
-      }
-    });
-    return teamsStatistic;
+    return efficiencyMap;
   }
 }

@@ -19,22 +19,54 @@ describe('Testing Teams endpoints', () => {
        sinon.restore();
     });
 
-    it('should return the list of teams on /teams',  async function (){
+    const expectedOutputMock= [
+        new Teams({
+        id: 1,
+        teamName: 'Team Typescript',
+        }),
+        new Teams({
+            id: 2,
+            teamName: 'Palmeira',
+            },
+    )];
 
-    const expectedOutputMock: Teams[] = [new Teams(
+    const expectedOneOutput = [
         {
         id: 1,
         teamName: 'Team Typescript',
         },
+        {
+            id: 2,
+            teamName: 'Palmeira',   
+        }
+    ]
 
-    )];
-    
-    sinon.stub(Model, 'findAll').resolves(expectedOutputMock)
+   
 
+    it('should return the list of teams on /teams',  async function (){
+
+        // when
+        sinon.stub(Model, 'findAll').resolves(expectedOutputMock)
+        //action
         const res = await chai.request(app).get('/teams');
-        const expectedPort =3001;
+        //assertion
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.an('array')
         expect(res.body).to.deep.equal(expectedOutputMock);
-        expect(process.env.APP_PORT || 3001).to.equal(expectedPort);
+       
 
     });
+     it('should return the a team on /teams/:id',  async function (){
+
+        
+        
+        sinon.stub(Model, 'findOne').resolves(expectedOutputMock[0])
+    
+            const res = await chai.request(app).get('/teams/1');
+            expect(res.status).to.be.equal(200);
+            expect(res.body).to.deep.equal(expectedOutputMock[0].dataValues);
+           
+    
+        }); 
+    
 });

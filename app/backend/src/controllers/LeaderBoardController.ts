@@ -1,4 +1,5 @@
 import { Response, Request } from 'express';
+import sortLeaderboard from '../utils/sortTeams';
 /* import ILeaderBoardStatistic from '../interfaces/ILeaderBoardStatistic'; */
 import LeaderBoardService from '../services/LeaderBoardService';
 
@@ -11,8 +12,9 @@ class LeaderBoardController {
 
   async getAll(_req:Request, res: Response) {
     const teamsStatistic = await this._service.calculatePointsHome();
-    const result = teamsStatistic;
-    return res.status(200).json(result);
+    const sortedTeams = sortLeaderboard(teamsStatistic);
+
+    return res.status(200).json(sortedTeams);
   }
 }
 export default LeaderBoardController;

@@ -1,4 +1,4 @@
-import * as sinon from 'sinon';
+/* import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
  import chaiHttp = require('chai-http');
@@ -34,4 +34,4 @@ describe('Testing  Teams', () => {
         const result = await service.getAll();
         expect(result).to.be.equal(expectedOutputMock)
     });
-});
+}); */
