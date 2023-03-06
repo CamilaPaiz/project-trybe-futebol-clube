@@ -23,5 +23,12 @@ class LeaderBoardController {
 
     return res.status(200).json(sortedTeams);
   }
+
+  async getAllTotal(_req:Request, res: Response) {
+    const teamsStatistic = await this._service.calculateTotalPoints();
+    const sortedTeams = sortLeaderboard(teamsStatistic);
+
+    return res.status(200).json(sortedTeams);
+  }
 }
 export default LeaderBoardController;

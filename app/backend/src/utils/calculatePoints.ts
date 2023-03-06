@@ -36,3 +36,16 @@ export function calculatePointsAway(team:ILeaderBoardStatistic, el:IMatches) {
   awayTeam.goalsBalance = awayTeam.goalsFavor - awayTeam.goalsOwn;
   return awayTeam;
 }
+
+export function calculateTeamPoints(Team:ILeaderBoardStatistic, awayTeam:ILeaderBoardStatistic) {
+  const team = Team;
+  team.totalPoints += awayTeam.totalPoints;
+  team.totalGames += awayTeam.totalGames;
+  team.totalVictories += awayTeam.totalVictories;
+  team.totalDraws += awayTeam.totalDraws;
+  team.totalLosses += awayTeam.totalLosses;
+  team.goalsFavor += awayTeam.goalsFavor;
+  team.goalsOwn += awayTeam.goalsOwn;
+  team.goalsBalance += awayTeam.goalsBalance;
+  return awayTeam;
+}
