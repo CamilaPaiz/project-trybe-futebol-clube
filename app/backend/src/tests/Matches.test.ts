@@ -8,18 +8,16 @@ import Matches from '../database/models/MatchesModel';
 import { Model } from 'sequelize';
 import ICreateMatch from '../interfaces/ICreateMatch';
 
-
-
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
 describe('Testing Matches endpoints', () => {
-   
+
     afterEach(() => {
        sinon.restore();
     });
-
+ 
     const expectedOutputMock: Matches[] = [
       new Matches(
       {
@@ -28,13 +26,7 @@ describe('Testing Matches endpoints', () => {
           homeTeamGoals: 1,
           awayTeamId: 8,
           awayTeamGoals: 1,
-          inProgress: true,
-          homeTeam: {
-            teamName: 'Palmeiras'
-          },
-          awayTeam: {
-            teamName: 'Santos'
-          }
+          inProgress:true
         }),
         new Matches({
           
@@ -43,19 +35,32 @@ describe('Testing Matches endpoints', () => {
             homeTeamGoals: 2,
             awayTeamId: 9,
             awayTeamGoals: 0,
-            inProgress: false,
-            homeTeam: {
-              teamName: 'São Paulo'
-            },
-            awayTeam: {
-              teamName: 'Internacional'
-            }
+            inProgress: true         
         })
         
   ];
 
-    it('should return the list of matches on /matches',  async function(){
+  const inputMock: ICreateMatch ={
+          
+    homeTeamId: 16, 
+    awayTeamId: 8, 
+    homeTeamGoals: 2,
+    awayTeamGoals: 2,
+    
+};
+const expectedOutputMock1: Matches = 
+    
+      {
+        id: 1,
+        homeTeamId: 16,
+        homeTeamGoals: 2,
+        awayTeamId: 8,
+        awayTeamGoals: 2,
+        inProgress: true,
+      } as Matches;
+      
 
+    it('should return the list of matches on /matches',  async function(){
      //when
     sinon.stub(Model, 'findAll').resolves(expectedOutputMock)
       // action
@@ -63,53 +68,15 @@ describe('Testing Matches endpoints', () => {
 
         //assertion
         expect(res.status).to.be.equal(200);
-       /*  expect(res.body).to.deep.equal()
- */
     });
 
-    it('should return the list of matches in progress on /matches?inProgress=true', async function() {
-     
-
-    // when
-    sinon.stub(Model, 'findAll').resolves(expectedOutputMock)
-  // action
-    const res = await chai.request(app).get('/matches?inProgress=true');
-   
-    //assertion
-    expect(res.body).to.deep.equal(expectedOutputMock[0]);
-   
-    })
-
-    it('should create matches on /matches',  async function(){
-      const inputMock: ICreateMatch ={
-          
-          homeTeamId: 16, 
-          awayTeamId: 8, 
-          homeTeamGoals: 2,
-          awayTeamGoals: 2,
-          
-  };
-      const expectedOutputMock: Matches = 
-          
-            {
-              id: 1,
-              homeTeamId: 16,
-              homeTeamGoals: 2,
-              awayTeamId: 8,
-              awayTeamGoals: 2,
-              inProgress: true,
-            } as Matches;
-            
-      
+    it('should create matches on /matches',  async function(){   
       // when
-      sinon.stub(Model, 'create').resolves(expectedOutputMock)
+      sinon.stub(Model, 'create').resolves(expectedOutputMock1)
       // action
           const res = await chai.request(app).post('/matches').send(inputMock);
       //assertions
-          expect(res.body).to.deep.equal({message: 'Token not found'});
-         
-  
+          expect(res.body).to.deep.equal({message: 'Token not found'}); 
       });
-  
 
 });

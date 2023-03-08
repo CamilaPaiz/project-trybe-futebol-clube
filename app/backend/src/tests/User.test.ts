@@ -20,21 +20,21 @@ describe('Testing  User', () => {
        sinon.restore();
     });
 
+    const user: Users = new Users ({
+        id:1,
+        username:'Joana',
+        role:'goalkeeper',
+        email:'joana@test.com',
+        password:'password',
+  });
+
     it('should return a user',  async function (){
 
- const user: Users = new Users ({
-       id:1,
-       username:'Joana',
-       role:'goalkeeper',
-       email:'joana@test.com',
-       password:'password',
- });
-
-
-    sinon.stub(Model, 'findOne').resolves(user)
+       sinon.stub(Model, 'findOne').resolves(user)
         const service = new UserService()
         const result = await service.getById(user.id);
         expect(result).to.be.equal(user)
     
     });
+    
 }); 
