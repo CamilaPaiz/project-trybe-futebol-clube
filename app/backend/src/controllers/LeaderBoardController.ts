@@ -1,6 +1,5 @@
 import { Response, Request } from 'express';
 import sortLeaderboard from '../utils/sortTeams';
-/* import ILeaderBoardStatistic from '../interfaces/ILeaderBoardStatistic'; */
 import LeaderBoardService from '../services/LeaderBoardService';
 
 class LeaderBoardController {

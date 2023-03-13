@@ -2,7 +2,6 @@ import { ModelStatic } from 'sequelize';
 import calculateEfficiency from '../utils/calculateEfficiency';
 import { calculatePoints, calculatePointsAway,
   calculateTeamPoints } from '../utils/calculatePoints';
-/* import ITeam from '../interfaces/ITeam'; */
 
 import Matches from '../database/models/MatchesModel';
 import Teams from '../database/models/TeamsModel';

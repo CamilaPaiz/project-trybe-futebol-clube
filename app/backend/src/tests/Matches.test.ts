@@ -61,18 +61,18 @@ const expectedOutputMock1: Matches =
       
 
     it('should return the list of matches on /matches',  async function(){
-     //when
-    sinon.stub(Model, 'findAll').resolves(expectedOutputMock)
+      //when
+       sinon.stub(Model, 'findAll').resolves(expectedOutputMock)
       // action
         const res = await chai.request(app).get('/matches');
 
-        //assertion
+      //assertion
         expect(res.status).to.be.equal(200);
     });
 
     it('should create matches on /matches',  async function(){   
       // when
-      sinon.stub(Model, 'create').resolves(expectedOutputMock1)
+          sinon.stub(Model, 'create').resolves(expectedOutputMock1)
       // action
           const res = await chai.request(app).post('/matches').send(inputMock);
       //assertions
